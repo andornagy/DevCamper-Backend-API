@@ -8,7 +8,13 @@ const {
 	deleteBootcamp,
 } = require("../controllers/bootcamps");
 
+// Include other resource routers
+const course = require("./courses");
+
 const router = express.Router();
+
+// Re-route into other resource routers
+router.use("/:bootcampId/courses", course);
 
 // Handle all bootcamps
 router.route("/").get(getBootcamps).post(createBootcamp);
