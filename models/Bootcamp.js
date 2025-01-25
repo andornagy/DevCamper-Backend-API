@@ -140,7 +140,7 @@ BootcampSchema.pre("save", function (next) {
 });
 
 // Cascade delete courses when a bootcamp is deleted
-BootcampSchema.post("findOneAndDelete", async function (doc) {
+BootcampSchema.post("deleteOne", async function (doc) {
 	if (doc) {
 		console.log(`Cascade deleting courses for bootcamp ${doc._id}`.yellow);
 		await mongoose.model("Course").deleteMany({ bootcamp: doc._id });
