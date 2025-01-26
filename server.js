@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/error");
 const fileUpload = require("express-fileupload");
 const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
 
 //  Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -29,6 +30,9 @@ app.use(express.json());
 
 // Cookie parser
 app.use(cookieParser());
+
+// Set Security HTTP headers
+app.use(helmet());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
