@@ -11,6 +11,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
+const cors = require("cors");
 
 //  Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -36,6 +37,8 @@ app.use(cookieParser());
 // Set Security HTTP headers
 app.use(helmet());
 
+// xss protection - TODO xss-clean alternative
+
 // Limit requests from same API
 const limiter = rateLimit({
 	windowMs: 10 * 60 * 1000, // 10 mins
@@ -45,6 +48,9 @@ app.use(limiter);
 
 // Prevent HTTP param pollution
 app.use(hpp());
+
+// Enable CORS
+app.use(cors());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
