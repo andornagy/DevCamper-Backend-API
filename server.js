@@ -12,6 +12,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const cors = require("cors");
+const sanitizeInputs = require("./middleware/sanitize");
 
 //  Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -38,6 +39,7 @@ app.use(cookieParser());
 app.use(helmet());
 
 // xss protection - TODO xss-clean alternative
+app.use(sanitizeInputs);
 
 // Limit requests from same API
 const limiter = rateLimit({
