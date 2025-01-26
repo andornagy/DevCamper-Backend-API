@@ -9,6 +9,8 @@ const errorHandler = require("./middleware/error");
 const fileUpload = require("express-fileupload");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const hpp = require("hpp");
 
 //  Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -33,6 +35,16 @@ app.use(cookieParser());
 
 // Set Security HTTP headers
 app.use(helmet());
+
+// Limit requests from same API
+const limiter = rateLimit({
+	windowMs: 10 * 60 * 1000, // 10 mins
+	max: 100,
+});
+app.use(limiter);
+
+// Prevent HTTP param pollution
+app.use(hpp());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
